@@ -22,8 +22,5 @@ Out of the 105 rows in `datacombined`, I was able to match 87 rows (× 577 colum
 
 ---
 
-### Key Corrections:
-1. **Sentence structure and flow**: I made the description clearer and corrected minor issues with word order and punctuation.
-2. **Verb tense and grammar**: I adjusted verb tenses to make the explanation consistent and grammatically correct.
-3. **Clarifications**: I added a little more context where things seemed ambiguous (like explaining that the hospital provided the `datacombined` file).
+
 
