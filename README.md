@@ -177,4 +177,15 @@ Test Loss: 0.14547954499721527
 Test Accuracy: 0.9929577708244324
 
 ```
+# Classification Metrics
+
+Here are the classification metrics for the model evaluation:
+
+| Class         | Precision | Recall | F1-Score | Support |
+|---------------|-----------|--------|----------|---------|
+| 0             | 0.99      | 1.00   | 1.00     | 984     |
+| 1             | 1.00      | 0.30   | 0.46     | 10      |
+| **Accuracy**  |           |        | 0.99     | 994     |
+| **Macro avg** | 1.00      | 0.65   | 0.73     | 994     |
+| **Weighted avg** | 0.99   | 0.99   | 0.99     | 994     |
 
