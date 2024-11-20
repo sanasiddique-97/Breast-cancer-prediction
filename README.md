@@ -109,5 +109,72 @@ model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy']
 # Train the model
 model.fit(X_train, y_train_encoded, epochs=10, validation_data=(X_val, y_val_encoded))
 
+# Load the images and labels
+X, y = prepare_data(image_names_non_cancer, image_paths_cancer, root_folder_non_cancer, root_folder_cancer)
+
+# Encode labels if necessary (if the labels are not already in numerical form)
+label_encoder = LabelEncoder()
+y_encoded = label_encoder.fit_transform(y)
+
+# Train-Test split
+X_train, X_val, y_train, y_val = train_test_split(X, y_encoded, test_size=0.2, random_state=42)
+
+# CNN Model
+def create_cnn_model(input_shape=(224, 224, 3), num_classes=2):
+    model = Sequential()
+    model.add(Conv2D(32, (3, 3), activation='relu', input_shape=input_shape))
+    model.add(MaxPooling2D((2, 2)))
+    model.add(Conv2D(64, (3, 3), activation='relu'))
+    model.add(MaxPooling2D((2, 2)))
+    model.add(Conv2D(128, (3, 3), activation='relu'))
+    model.add(MaxPooling2D((2, 2)))
+    model.add(Flatten())
+    model.add(Dense(128, activation='relu'))
+    model.add(Dense(num_classes, activation='softmax'))  # Softmax for binary classification (0 and 1)
+    return model
+
+# Create and compile the model
+model = create_cnn_model()
+
+# Compile the model
+model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+
+# Train the model
+history = model.fit(X_train, y_train, epochs=10, batch_size=32, validation_data=(X_val, y_val))
+
+# Evaluate the model
+test_loss, test_accuracy = model.evaluate(X_val, y_val)
+print(f"Test Loss: {test_loss}")
+print(f"Test Accuracy: {test_accuracy}")
+
+# Predictions and evaluation metrics
+y_pred = model.predict(X_val)
+y_pred_classes = np.argmax(y_pred, axis=1)
+
+# Confusion Matrix
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+cm = confusion_matrix(y_val, y_pred_classes)
+plt.figure(figsize=(8, 6))
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=['Non-cancer', 'Cancer'], yticklabels=['Non-cancer', 'Cancer'])
+plt.ylabel('True Label')
+plt.xlabel('Predicted Label')
+plt.title('Confusion Matrix')
+plt.show()
+
+# Classification Report
+from sklearn.metrics import classification_report
+print(classification_report(y_val, y_pred_classes))
+
+```
+
+### output 
+
+```
+Test Loss: 0.14547954499721527
+Test Accuracy: 0.9929577708244324
+
 ```
 
