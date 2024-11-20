@@ -24,4 +24,90 @@ Out of the 105 rows in `datacombined`, I was able to match 87 rows (× 577 colum
 
 I have saved the file to navigate images as `CANCER.csv` that has 87 matches and ``NON CANCER.csv` 
 
+### Retrieving images using Cancer and non cancer fıle that we have created.
+```python
+# Import necessary libraries
+import os
+import pandas as pd
+import numpy as np
+import tensorflow as tf
+from tensorflow.keras.preprocessing import image
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+
+# Read the CSV files containing image metadata
+matched_df = pd.read_csv('NON CANCER.csv', sheet_name=0)  # First sheet (Non-Cancer Data)
+merged_cancer = pd.read_csv('CANCER.csv', sheet_name=1)  # Second sheet (Cancer Data)
+
+# Define the root folder paths where the images are stored
+root_folder_non_cancer = r'C:\Users\kenza.chenni\Desktop\acıbademsana\non cancer'
+root_folder_cancer = r'C:\Users\kenza.chenni\Desktop\acıbademsana\cancer'
+
+# Get the image filenames from the metadata DataFrames (Non-Cancer and Cancer)
+image_names_non_cancer = matched_df['InputFileName'].astype(str).tolist()
+image_paths_cancer = merged_cancer['AbsolutePath'].astype(str).tolist()
+
+# Function to find the image path from subfolders in a given folder
+def get_image_path_from_subfolders(image_name, root_folder):
+    for root, dirs, files in os.walk(root_folder):
+        if image_name in files:
+            return os.path.join(root, image_name)  # Return the full path of the image
+    return None  # Return None if image is not found
+
+# Function to prepare the data by loading images and assigning labels
+def prepare_data(image_names_non_cancer, image_paths_cancer, root_folder_non_cancer, root_folder_cancer):
+    images = []
+    labels = []
+    
+    # Process Non-Cancer images (label 0)
+    for image_name in image_names_non_cancer:
+        image_path = get_image_path_from_subfolders(image_name, root_folder_non_cancer)
+        if image_path:
+            # Load and preprocess the image
+            img = image.load_img(image_path, target_size=(224, 224))  # Resize to 224x224 pixels
+            img_array = image.img_to_array(img) / 255.0  # Normalize the pixel values to [0, 1]
+            images.append(img_array)
+            labels.append(0)  # Assign label 0 for Non-Cancer
+
+    # Process Cancer images (label 1)
+    for image_path in image_paths_cancer:
+        image_name = os.path.basename(image_path)  # Extract the filename from the full path
+        img = image.load_img(image_path, target_size=(224, 224))  # Resize to 224x224 pixels
+        img_array = image.img_to_array(img) / 255.0  # Normalize the pixel values to [0, 1]
+        images.append(img_array)
+        labels.append(1)  # Assign label 1 for Cancer
+
+    return np.array(images), np.array(labels)
+
+# Prepare the data for training the model
+images, labels = prepare_data(image_names_non_cancer, image_paths_cancer, root_folder_non_cancer, root_folder_cancer)
+
+# Optionally, split the data into training and validation sets
+X_train, X_val, y_train, y_val = train_test_split(images, labels, test_size=0.2, random_state=42)
+
+# Optionally, you can encode the labels using LabelEncoder if needed for classification
+label_encoder = LabelEncoder()
+y_train_encoded = label_encoder.fit_transform(y_train)
+y_val_encoded = label_encoder.transform(y_val)
+
+# Example of how to define a simple CNN model for image classification
+model = Sequential([
+    Conv2D(32, (3, 3), activation='relu', input_shape=(224, 224, 3)),
+    MaxPooling2D(pool_size=(2, 2)),
+    Conv2D(64, (3, 3), activation='relu'),
+    MaxPooling2D(pool_size=(2, 2)),
+    Flatten(),
+    Dense(128, activation='relu'),
+    Dense(1, activation='sigmoid')  # Output layer for binary classification (Cancer vs Non-Cancer)
+])
+
+# Compile the model
+model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+
+# Train the model
+model.fit(X_train, y_train_encoded, epochs=10, validation_data=(X_val, y_val_encoded))
+
+```
 
