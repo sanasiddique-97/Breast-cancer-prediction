@@ -239,3 +239,6 @@ When trying to extend my pretrained CNN model (`cnn_model_onImageandExcel.h5`) b
 
 By following these precautions, I can safely integrate pretrained CNN models with additional networks like ResNet50 and avoid common pitfalls like uninitialized layers or missing compilation steps.
 
+### Resnet lınk 
+https://github.com/akshatapatel/Breast-Cancer-Image-Classification/blob/master/ResNet.ipynb
+
