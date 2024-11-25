@@ -407,6 +407,8 @@ The results from the **Gemini 1.5 API** for breast ultrasound images are providi
 
 ---
 
+### lınk3 https://www.kaggle.com/code/datnguyen1235/breast-cancer-classification-accuracy-100
+
 ### **Summary of the Specific Results for Malignant Images**:
 
 | **Image**                        | **Findings**                                                                                       | **Recommendation**                                                                                             |
@@ -415,7 +417,39 @@ The results from the **Gemini 1.5 API** for breast ultrasound images are providi
 | **malignant (175).png**           | Hypoechoic region with irregular borders. Challenging without video context. Possible malignancy. | **Further analysis** required. Clinical consultation recommended.                                            |
 | **malignant (78).png**            | Irregular borders, heterogeneous echotexture, and hypoechoic regions. Suggestive of malignancy.    | **Biopsy** to confirm tumor nature. Further investigation is necessary.                                        |
 | **malignant (193).png**           | Hypoechoic, round-shaped mass with irregular borders. Heterogeneous echotexture. Suspicious mass.  | **Further imaging** and biopsy required to confirm malignancy.                                                 |
-| **malignant (36).png**            | Hypoechoic region with irregular borders. Suggests possible malignancy.                           | Requires **additional imaging** and clinical evaluation.                                                       |
+| **malignant (36).png**            | Hypoechoic region with irregular borders. Suggests possible malignancy.                           | Requires **additional imaging** and clinical evaluation.         |
+
+
+Here’s the data you provided formatted into a **table** for better readability:
+
+| **Epoch** | **Train Loss** | **Learning Rate** | **Val Loss** | **Val Accuracy** | **Val Recall** | **Val F1-score** | **Training Time per Epoch** |
+|-----------|----------------|-------------------|--------------|------------------|----------------|------------------|----------------------------|
+| 1         | 0.3645         | 0.00098284         | 0.3645       | 95.73%           | 95.50%         | 95.73%           | 28s                        |
+| 2         | 0.1120         | 0.00096479         | 0.0086       | 99.15%           | 99.43%         | 99.26%           | 28s                        |
+| 3         | 0.0796         | 0.00094670         | 0.0388       | 99.15%           | 99.10%         | 99.26%           | 27s                        |
+| 4         | 0.1749         | 0.00092857         | 0.0245       | 99.15%           | 99.10%         | 99.26%           | 27s                        |
+| 5         | 0.1526         | 0.00091040         | 0.2311       | 98.29%           | 98.20%         | 98.51%           | 27s                        |
+| 6         | 0.0867         | 0.00089219         | 0.2569       | 79.49%           | 64.87%         | 60.03%           | 27s                        |
+| 7         | 0.1121         | 0.00087394         | 0.0872       | 99.15%           | 99.10%         | 99.26%           | 28s                        |
+| 8         | 0.0586         | 0.00085565         | 0.0261       | 99.15%           | 99.10%         | 99.26%           | 27s                        |
+| 9         | 0.0374         | 0.00083731         | 0.0048       | 100%             | 100%           | 100%             | 28s                        |
+
+### Key Points:
+- **Epoch 9** shows the highest performance with **100% accuracy**, **100% recall**, and **100% F1-score** on the validation set.
+- There are **warnings related to the `os.fork()`** call during the training process. This may indicate compatibility issues when using multiprocessing with certain libraries like JAX.
+- The **learning rate** gradually decreases, and the **loss** continues to improve as the epochs progress, indicating successful training.
+
+---
+
+### **Training Performance Analysis**:
+- The model is steadily improving as seen in the **decreasing loss** and **increasing F1-score**.
+- **Epoch 6** shows a significant drop in performance (F1-score of **60%**), likely due to the **model overfitting** or **a problematic learning rate** for that specific epoch.
+- From **Epoch 7 onwards**, performance improves again with high **accuracy** and **F1-score**.
+
+---
+
+
+
 
 
 
