@@ -239,7 +239,7 @@ When trying to extend my pretrained CNN model (`cnn_model_onImageandExcel.h5`) b
 
 By following these precautions, I can safely integrate pretrained CNN models with additional networks like ResNet50 and avoid common pitfalls like uninitialized layers or missing compilation steps.
 
-### Defınatıons
+### -------------------------------------------------------------------------------- Defınatıons-------------------------------------------------------------------------------------------
 
 The **F1 score** is a performance metric for classification tasks that combines precision and recall into a single value. It is particularly useful when dealing with imbalanced datasets, where one class significantly outnumbers the other(s).
 
@@ -309,10 +309,34 @@ Consider a binary classification problem where:
 
 The F1 score of 0.842 indicates a good balance between precision and recall.
 
-
-
+### -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+### References
 ### Resnet lınk 
 https://github.com/akshatapatel/Breast-Cancer-Image-Classification/blob/master/ResNet.ipynb
+
+Output:
+| **Model**                | **Validation Score** | **Score Behavior**                                                                                   | **Observation**                                                                                                                                                                  |
+|--------------------------|-----------------------|-----------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **With Skip Connections** | 0.84                 | Improves consistently during training                                                              | Learns better due to the inclusion of skip connections, which help mitigate vanishing gradient issues and improve feature learning.                                              |
+| **Without Skip Connections** | 0.49                 | Remains almost constant (between 0.48 - 0.50) across all epochs                                     | A deep model with 25 layers (20 convolutional and 5 max-
+pooling) struggles to learn on the dataset without skip connections, leading to poor performance and stagnant validation scores. |
+
+### Resnet Applıed on my mamogram dataset
+
+Best Epoch (Val Accuracy): 0
+accuracy        0.948941
+loss            0.203660
+val_accuracy    0.952769
+val_loss        0.215294
+Name: 0, dtype: float64
+Best Epoch (Val Loss): 0
+accuracy        0.948941
+loss            0.203660
+val_accuracy    0.952769
+val_loss        0.215294
+
+
+
 
 
 ### Other Work On Ultrasound Images 
@@ -344,6 +368,56 @@ Kappa Score: 0.6748
 ROC AUC Score: 0.9266
 Precision: 0.8062
 Recall: 0.8034
+
+link2: https://www.kaggle.com/code/bevenky/gemini-1-5-for-ultrasound-tumor-analysis
+
+The results from the **Gemini 1.5 API** for breast ultrasound images are providing detailed analysis based on the **features indicative of malignancy**. Here’s a breakdown of the key findings and actions based on the AI’s analysis:
+
+### **Key Findings:**
+1. **Irregular Borders**:
+   - Irregular, ill-defined borders are a significant indicator of malignancy. Malignant tumors often present with this feature, unlike benign lesions that tend to have well-defined, smooth borders.
+
+2. **Hypoechoic Regions**:
+   - Hypoechoic (darker) areas in the image suggest areas of low-density tissue, which could indicate a mass or tumor. This is typically seen in malignant tumors.
+   
+3. **Heterogeneous Echotexture**:
+   - Malignant tumors often display varying levels of echogenicity within the mass, leading to a heterogeneous appearance. This differs from benign lesions that are generally homogeneous.
+
+4. **Spiculated Masses**:
+   - Some images show spiculated (spiky) masses, a hallmark feature of malignant tumors, which may invade surrounding tissues.
+
+5. **Potential for Tumors**:
+   - The image suggests the presence of a tumor but does not provide enough detail for a definitive diagnosis. The features observed, such as irregular borders and hypoechoic areas, are concerning for malignancy.
+
+6. **Lack of Acoustic Shadowing and Calcifications**:
+   - The absence of posterior acoustic shadowing and calcifications makes it difficult to definitively classify the mass as malignant in some cases. These features are often indicative of tumors but may not always be present.
+
+---
+
+### **Actionable Insights from the AI Results:**
+- **Further Investigation Needed**:
+  - The AI suggests that while the images show concerning features, additional imaging (e.g., mammography, MRI) and clinical data are necessary for a more accurate diagnosis.
+  - A **biopsy** is recommended to confirm the nature of the mass.
+
+- **Recommendation for Healthcare Professionals**:
+  - The AI results indicate that **consultation with a radiologist** is needed for a comprehensive analysis. A radiologist can review the full sequence of images and consider other factors like patient history.
+  
+- **Clinical Follow-up**:
+  - The AI points out that features such as **irregular borders**, **hypoechoic regions**, and **heterogeneous echotexture** are common in malignancies but may also occur in other conditions. Further clinical evaluation, including biopsies or additional scans, is needed to establish a definitive diagnosis.
+
+---
+
+### **Summary of the Specific Results for Malignant Images**:
+
+| **Image**                        | **Findings**                                                                                       | **Recommendation**                                                                                             |
+|-----------------------------------|---------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
+| **malignant (32).png**            | Large hypoechoic mass with irregular borders and spiculated shape. Suggestive of malignancy.      | **Biopsy** needed to confirm malignancy. Further investigation required.                                       |
+| **malignant (175).png**           | Hypoechoic region with irregular borders. Challenging without video context. Possible malignancy. | **Further analysis** required. Clinical consultation recommended.                                            |
+| **malignant (78).png**            | Irregular borders, heterogeneous echotexture, and hypoechoic regions. Suggestive of malignancy.    | **Biopsy** to confirm tumor nature. Further investigation is necessary.                                        |
+| **malignant (193).png**           | Hypoechoic, round-shaped mass with irregular borders. Heterogeneous echotexture. Suspicious mass.  | **Further imaging** and biopsy required to confirm malignancy.                                                 |
+| **malignant (36).png**            | Hypoechoic region with irregular borders. Suggests possible malignancy.                           | Requires **additional imaging** and clinical evaluation.                                                       |
+
+
 
 
 
