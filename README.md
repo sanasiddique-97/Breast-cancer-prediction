@@ -239,6 +239,111 @@ When trying to extend my pretrained CNN model (`cnn_model_onImageandExcel.h5`) b
 
 By following these precautions, I can safely integrate pretrained CNN models with additional networks like ResNet50 and avoid common pitfalls like uninitialized layers or missing compilation steps.
 
+### Defınatıons
+
+The **F1 score** is a performance metric for classification tasks that combines precision and recall into a single value. It is particularly useful when dealing with imbalanced datasets, where one class significantly outnumbers the other(s).
+
+---
+
+### **Formula**
+The F1 score is defined as the harmonic mean of precision and recall:
+
+\[
+F1 = 2 \cdot \frac{\text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}}
+\]
+
+Where:
+- **Precision** (Positive Predictive Value):
+  \[
+  \text{Precision} = \frac{\text{True Positives}}{\text{True Positives} + \text{False Positives}}
+  \]
+  Precision measures how many of the predicted positive results are actually positive.
+
+- **Recall** (Sensitivity or True Positive Rate):
+  \[
+  \text{Recall} = \frac{\text{True Positives}}{\text{True Positives} + \text{False Negatives}}
+  \]
+  Recall measures how many of the actual positive results are correctly predicted.
+
+---
+
+### **Why Use the F1 Score?**
+- **Balances Precision and Recall**: Useful when you want to balance both metrics, especially when improving one might harm the other.
+- **Focuses on Positive Predictions**: Helps evaluate models in scenarios where the positive class is more important (e.g., detecting diseases, fraud detection).
+
+---
+
+### **Interpretation**
+- \( F1 = 1 \): Perfect precision and recall.
+- \( F1 = 0 \): Either precision or recall is zero (complete failure in prediction).
+
+---
+
+### **When to Use**
+- When the dataset is imbalanced.
+- When false positives and false negatives carry different costs.
+- When optimizing both precision and recall is critical.
+
+---
+
+### **Example**
+Consider a binary classification problem where:
+- True Positives (\( TP \)) = 80
+- False Positives (\( FP \)) = 20
+- False Negatives (\( FN \)) = 10
+
+1. **Precision**:
+   \[
+   \text{Precision} = \frac{80}{80 + 20} = 0.8
+   \]
+
+2. **Recall**:
+   \[
+   \text{Recall} = \frac{80}{80 + 10} = 0.888
+   \]
+
+3. **F1 Score**:
+   \[
+   F1 = 2 \cdot \frac{0.8 \cdot 0.888}{0.8 + 0.888} = 0.842
+   \]
+
+The F1 score of 0.842 indicates a good balance between precision and recall.
+
+
+
 ### Resnet lınk 
 https://github.com/akshatapatel/Breast-Cancer-Image-Classification/blob/master/ResNet.ipynb
+
+
+### Other Work On Ultrasound Images 
+
+link1: https://www.kaggle.com/code/aditimondal23/vgg19-breast
+Developed a custom image classifier using a pre-trained VGG19 model for a 3-class classification task (e.g., benign, normal, malignant). The model was fine-tuned by adding fully connected layers with dropout, batch normalization, and L2 regularization to enhance performance and prevent overfitting. Training incorporated early stopping (based on validation loss) and model checkpointing (saving the best model by validation accuracy). Performance was evaluated using metrics such as accuracy, loss, and ROC curves. Visualized predictions with confidence scores on test images for better interpretability.
+VGG19 Model Creation
+The VGG19 model is used as a base (pre-trained on ImageNet), with additional layers added to adapt it to the classification task. Key steps:
+
+Freeze Base Model Layers: Prevents training on pre-trained VGG19 layers to retain learned features.
+Add Custom Layers:
+Flatten Layer: Converts the feature map to a vector for fully connected layers.
+BatchNormalization: Normalizes intermediate layer outputs to stabilize training.
+Dense Layers: Fully connected layers with L2 regularization to prevent overfitting.
+Dropout: Randomly deactivates neurons during training for regularization.
+Output Layer: A softmax layer with 3 output units, representing 3 classes.
+The model is compiled with:
+
+Optimizer: Stochastic Gradient Descent (SGD) with momentum.
+Loss Function: Categorical crossentropy for multi-class classification.
+Metrics: Tracks accuracy during training.
+
+--- Model Evaluation Metrics ---
+Train accuracy: 0.9950
+Validation accuracy: 0.8507
+Test accuracy: 0.8034
+F1 Score: 0.8009
+Kappa Score: 0.6748
+ROC AUC Score: 0.9266
+Precision: 0.8062
+Recall: 0.8034
+
+
 
