@@ -448,6 +448,28 @@ Here’s the data you provided formatted into a **table** for better readability
 
 ---
 
+### lınk4 https://www.kaggle.com/code/aishibiswas1/googlenet-trial1
+
+This code trains a **breast cancer classification model** using ultrasound images, categorizing them into **Benign**, **Malignant**, and **Normal** classes. It utilizes **InceptionV3** with pre-trained ImageNet weights for transfer learning. The model includes a **GlobalAveragePooling2D** layer followed by a **Dense** layer for classification.
+
+The dataset is processed using **ImageDataGenerator**, with 20% of the data reserved for validation. The model is trained for 10 epochs with **categorical cross-entropy loss** and **Adam optimizer**. After training, the model's performance is evaluated using **accuracy**, **precision**, **recall**, and **F1-score** metrics.
+
+**Visualizations** include a bar chart for precision, recall, and F1-score, a **confusion matrix**, and **ROC** and **Precision-Recall curves** for each class. Predictions on the test set are also shown, including true and predicted labels for a few test images.
+
+This workflow allows you to train, evaluate, and visualize the performance of a deep learning model on breast ultrasound images.
+
+precision    recall  f1-score   support
+
+      Benign       0.57      0.69      0.62       178
+   Malignant       0.31      0.23      0.26        84
+      Normal       0.15      0.11      0.13        53
+
+    accuracy                           0.47       315
+   macro avg       0.34      0.34      0.34       315
+weighted avg       0.43      0.47      0.44       315
+
+
+
 
 
 
