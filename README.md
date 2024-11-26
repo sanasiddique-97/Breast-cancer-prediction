@@ -189,8 +189,8 @@ Here are the classification metrics for the model evaluation:
 | **Macro avg** | 1.00      | 0.65   | 0.73     | 994     |
 | **Weighted avg** | 0.99   | 0.99   | 0.99     | 994     |
 
-
-### Issues Faced While Incorporating ResNet into My Pretrained CNN and Precautions to Be Taken
+### ------------------------------------------------------------------------------------------ Issues -------------------------------------------------------------------------------------------------------------------
+### 1.  Issues Faced While Incorporating ResNet into My Pretrained CNN and Precautions to Be Taken
 
 When trying to extend my pretrained CNN model (`cnn_model_onImageandExcel.h5`) by integrating it with ResNet50 for further feature extraction, I faced the following challenges:
 
@@ -238,6 +238,65 @@ When trying to extend my pretrained CNN model (`cnn_model_onImageandExcel.h5`) b
    - Ensure that any metrics and layers required for evaluation are properly set up by compiling the model before proceeding.
 
 By following these precautions, I can safely integrate pretrained CNN models with additional networks like ResNet50 and avoid common pitfalls like uninitialized layers or missing compilation steps.
+
+### 2.  Issues Faced While Incorporating load, preprocess, and split image data for training a binary classification model (non-cancer vs. cancer)
+
+### Summary of What Was Done:
+
+You were working on a machine learning project where you wanted to load, preprocess, and split image data for training a binary classification model (non-cancer vs. cancer). Here's the sequence of actions you were taking:
+
+1. **Loading and Preprocessing Images**:
+   - You wrote a function (`load_and_preprocess_image`) to load images from file paths, resize them to 224x224 pixels, convert them to NumPy arrays, normalize them to the [0, 1] range, and add a batch dimension.
+   
+2. **Creating Datasets**:
+   - You used the function to load non-cancer and cancer images from their respective directories, processed them, and then concatenated the images into one array (`X`).
+   
+3. **Creating Labels**:
+   - You created labels for the images: `0` for non-cancer images and `1` for cancer images.
+
+4. **Splitting the Data**:
+   - You used `train_test_split` from Scikit-Learn to split the data into training and validation sets for model training.
+
+### Error Encountered:
+The error you encountered was:
+
+```plaintext
+ValueError: all the input arrays must have same number of dimensions, but the array at index 0 has 5 dimension(s) and the array at index 1 has 1 dimension(s)
+```
+
+This error occurred when you tried to concatenate the non-cancer and cancer images into a single dataset using `np.concatenate`. The issue was that the images were being loaded with an extra batch dimension (i.e., they had a shape of `(1, 224, 224, 3)` for each image), causing a mismatch when trying to concatenate them together.
+
+### How the Issue Was Solved:
+
+1. **Understanding the Problem**:
+   - The `load_and_preprocess_image` function added an extra batch dimension to each image (with shape `(1, 224, 224, 3)`), causing the resulting arrays to be 5D instead of the expected 4D. When you tried to concatenate them, NumPy couldn't handle the dimension mismatch.
+
+2. **Fixing the Solution**:
+   - Instead of directly using `np.array()` to wrap the preprocessed images in `X_non_cancer` and `X_cancer`, you modified the code to first create a list of processed images and then used `np.concatenate` to merge them along the batch dimension (axis=0).
+   - This resulted in a 4D array with the shape `(num_images, 224, 224, 3)` for both non-cancer and cancer images, which was the expected input shape for training the model.
+
+3. **Code Modification**:
+   ```python
+   # Load and preprocess images into lists
+   X_non_cancer = [load_and_preprocess_image(path) for path in image_paths_non_cancer if path is not None]
+   X_cancer = [load_and_preprocess_image(path) for path in image_paths_cancer if path is not None]
+
+   # Concatenate images properly into 4D arrays
+   X_non_cancer = np.concatenate(X_non_cancer, axis=0)
+   X_cancer = np.concatenate(X_cancer, axis=0)
+
+   # Combine data and create labels
+   X = np.concatenate([X_non_cancer, X_cancer], axis=0)
+   y = np.concatenate([np.zeros(len(X_non_cancer)), np.ones(len(X_cancer))], axis=0)
+
+   # Split data into training and validation sets
+   X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
+   ```
+
+### Conclusion:
+You successfully solved the dimensionality mismatch by ensuring that the images were loaded and concatenated correctly as 4D arrays, making them suitable for training the classification model. This fix allowed you to proceed with creating the training and validation sets and eventually move forward with model training.
+
+
 
 ### -------------------------------------------------------------------------------- Defınatıons-------------------------------------------------------------------------------------------
 
