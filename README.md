@@ -528,6 +528,32 @@ precision    recall  f1-score   support
 weighted avg       0.43      0.47      0.44       315
 
 
+### Link5 https://github.com/nyukat/breast_cancer_classifier
+
+## Summary
+
+This repository provides an implementation of a deep learning model for breast cancer classification in mammograms. The model achieves high accuracy in predicting malignant and benign findings, potentially improving radiologists' performance in breast cancer screening.
+
+Here's a breakdown of the key points:
+
+* **Model Type:** Deep convolutional neural network
+* **Inputs:** Four mammogram images (one for each standard view: L-CC, R-CC, L-MLO, R-MLO)
+* **Outputs:** Probability of benign and malignant findings for each breast (left and right)
+* **Performance:**
+    * Achieves an AUC (Area Under the Curve) of 0.895 for identifying malignant cases.
+    * Accuracy is slightly lower for benign cases.
+    * A hybrid model combining radiologist predictions with the model's predictions shows even better accuracy than either method alone.
+
+## Disclaimer
+
+It's important to note that the code provided in this repository is outdated (created in 2019). The authors recommend contacting them for information on their latest and most accurate models. Here's the contact information from the repository:
+
+* Email: krzysztof.geras@nyulangone.org
+
+## Overall Performance
+
+The deep learning model described here demonstrates promising results in breast cancer classification. It achieves good accuracy in identifying malignant cases and can potentially be a valuable tool to assist radiologists in screening. However, it's crucial to use the most recent and well-performing models for clinical applications.
+
 
 
 
