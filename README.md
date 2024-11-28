@@ -398,7 +398,7 @@ val_loss        0.215294
 
 
 
-### Other Work On Ultrasound Images 
+### Other Work On Ultrasound Images and mamograms
 
 link1: https://www.kaggle.com/code/aditimondal23/vgg19-breast
 Developed a custom image classifier using a pre-trained VGG19 model for a 3-class classification task (e.g., benign, normal, malignant). The model was fine-tuned by adding fully connected layers with dropout, batch normalization, and L2 regularization to enhance performance and prevent overfitting. Training incorporated early stopping (based on validation loss) and model checkpointing (saving the best model by validation accuracy). Performance was evaluated using metrics such as accuracy, loss, and ROC curves. Visualized predictions with confidence scores on test images for better interpretability.
@@ -553,6 +553,109 @@ It's important to note that the code provided in this repository is outdated (cr
 ## Overall Performance
 
 The deep learning model described here demonstrates promising results in breast cancer classification. It achieves good accuracy in identifying malignant cases and can potentially be a valuable tool to assist radiologists in screening. However, it's crucial to use the most recent and well-performing models for clinical applications.
+
+
+### lınk6 https://github.com/Jean-njoroge/Breast-cancer-risk-prediction/blob/master/NB4_PredictiveModelUsingSVM.ipynb
+
+Here’s a summarized version of your notebook for a GitHub README:
+
+---
+
+### Predictive Model using Support Vector Machine (SVM)
+
+This project implements a predictive model for breast cancer classification using Support Vector Machines (SVMs). SVMs are popular for binary classification tasks and can handle complex, non-linear data by transforming it into a higher-dimensional space.
+
+**Key Insights:**
+- **SVM Benefits:** Good for both low-dimensional and high-dimensional data, works with complex decision boundaries.
+- **Challenges:** Requires careful data preprocessing and parameter tuning; large datasets may face performance issues.
+- **Model Parameters:**  
+  - **C:** Regularization parameter.
+  - **Kernel:** Choice of kernel (linear, RBF, polynomial).
+  - **Gamma:** Controls the complexity of the model.
+
+#### Key Steps:
+1. **Data Preprocessing:**
+   - Data loaded and cleaned, removing unnecessary columns.
+   - Features and labels are extracted, and labels are encoded into integers.
+   - Data is normalized using `StandardScaler`.
+
+2. **Model Training:**
+   - Split data into training and testing sets (70% train, 30% test).
+   - Trained SVM model using `SVC()`.
+
+3. **Model Evaluation:**
+   - Evaluated using accuracy score and cross-validation.
+   - Cross-validation used for a more robust performance estimate.
+   - **Confusion Matrix**: Visualized the classification results.
+   - **Classification Report**: Shows precision, recall, and F1 score for each class (benign or malignant).
+
+4. **Receiver Operating Characteristic (ROC) Curve:**
+   - Plotted ROC curve and calculated Area Under the Curve (AUC) for model performance.
+   - ROC helps visualize the trade-off between true positive and false positive rates.
+
+#### Performance Metrics:
+- **Accuracy:** 95%
+- **True Positive Rate (Sensitivity/Recall):** 89%
+- **False Positive Rate:** 1%
+- **Precision:** 98%
+- **Specificity:** 99%
+- **AUC:** ~0.95
+
+#### Code Implementation:
+```python
+# Libraries
+import pandas as pd
+import numpy as np
+from sklearn.svm import SVC
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.metrics import classification_report, confusion_matrix, roc_curve, auc
+import matplotlib.pyplot as plt
+
+# Load data
+data = pd.read_csv('data/clean-data.csv')
+
+# Preprocessing
+X = data.iloc[:, 1:31].values
+y = LabelEncoder().fit_transform(data.iloc[:, 0].values)
+X_scaled = StandardScaler().fit_transform(X)
+
+# Train/test split
+X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.3, random_state=2)
+
+# Train SVM model
+clf = SVC(probability=True)
+clf.fit(X_train, y_train)
+
+# Accuracy and Cross-validation
+accuracy = clf.score(X_test, y_test)
+cv_error = np.mean(cross_val_score(SVC(), X_scaled, y, cv=3))
+
+# Confusion Matrix
+y_pred = clf.predict(X_test)
+cm = confusion_matrix(y_test, y_pred)
+print(classification_report(y_test, y_pred))
+
+# ROC Curve
+probas_ = clf.predict_proba(X_test)
+fpr, tpr, _ = roc_curve(y_test, probas_[:, 1])
+roc_auc = auc(fpr, tpr)
+plt.plot(fpr, tpr, label=f'AUC = {roc_auc:.2f}')
+plt.plot([0, 1], [0, 1], '--', color=(0.6, 0.6, 0.6), label='Random')
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('ROC Curve')
+plt.legend(loc='lower right')
+plt.show()
+```
+
+**Future Steps:**
+- Experiment with hyperparameter tuning for improved performance.
+- Consider implementing feature selection to optimize the model's efficiency.
+
+---
+
+This summary covers the SVM model implementation, its evaluation using confusion matrix and ROC curve, and the key performance metrics.
 
 
 
