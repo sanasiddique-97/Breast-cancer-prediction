@@ -507,7 +507,26 @@ Here’s the data you provided formatted into a **table** for better readability
 
 ---
 
-### lınk4 https://www.kaggle.com/code/aishibiswas1/googlenet-trial1
+### lınk4 https://www.kaggle.com/code/aishibiswas1/googlenet-trial1  (ınceptıon v3)
+
+InceptionV3 is an advanced convolutional neural network (CNN) architecture that was released in 2016 as an improvement over its predecessor, InceptionV2. Below is a simplified explanation of the key concepts:
+
+1. **Factorized Convolutions**:
+   - Instead of using a large convolution filter (like 5x5), InceptionV3 uses stacked smaller convolutions (like two 3x3 convolutions). This reduces the number of parameters and computational cost without losing much performance.
+   - Example: A single 5x5 convolution has 25 parameters, while two 3x3 convolutions stacked on top of each other only have 18 parameters, which is more efficient.
+
+2. **Dimension Reduction**:
+   - InceptionV3 uses a technique that combines convolution and pooling layers to reduce the dimensionality (size) of feature maps more efficiently.
+   - For example, a tensor of size **35x35x320** can be downscaled to **17x17x320** using a stride of 2 for the convolution, and then downscaled further using max-pooling. The outputs are then concatenated, resulting in a tensor of size **17x17x640**.
+
+3. **Removed Auxiliary Classifier**:
+   - InceptionV3 removes the auxiliary classifier, which was present in earlier versions. This classifier was used during training to regularize the model, but it was found that removing it did not affect performance and simplified the model.
+
+4. **Label Smoothing**:
+   - Label smoothing is a technique used during training. Instead of making the model predict a sharp "1" for the correct class and "0" for the others, the model is encouraged to output a smoother distribution. For example, for a class "c", instead of predicting `[0, 0, ..., 1, ..., 0]`, the model predicts something like `[1-ϵ, ϵ/K, ϵ/K, ..., ϵ/K]`, where `ϵ` is a small value and `K` is the total number of classes.
+   - This helps prevent the model from becoming overly confident and can lead to better generalization.
+
+
 
 This code trains a **breast cancer classification model** using ultrasound images, categorizing them into **Benign**, **Malignant**, and **Normal** classes. It utilizes **InceptionV3** with pre-trained ImageNet weights for transfer learning. The model includes a **GlobalAveragePooling2D** layer followed by a **Dense** layer for classification.
 
